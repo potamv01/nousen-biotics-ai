@@ -89,8 +89,60 @@ Key behaviours:
 
 ## 🔬 Running Tests
 
-Install dependencies (Python 3.10+ recommended) and run:
+Install dependencies (Python 3.7+; 3.10+ recommended) and run:
 
 ```bash
 python -m pytest
 ```
+
+---
+
+## 📦 Deployment
+
+If you are reviewing a change and deciding whether to accept it, see [`docs/review_checklist.md`](docs/review_checklist.md) for a concise acceptance checklist.
+
+You can install and run the pricing agent as a reusable Python package:
+
+1. Create and activate a virtual environment (recommended):
+
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   ```
+
+2. Install the package in editable mode from the repository root:
+
+   ```bash
+   pip install -e .
+   ```
+
+3. Import and use the agent anywhere in your stack:
+
+   ```python
+   from pricing_agent import PricingAgent, ProductProfile, CompetitorProduct
+
+   agent = PricingAgent()
+   # ... construct product and competitor inputs, then call agent.recommend(...)
+   ```
+
+4. (Optional) Build a distributable wheel for deployment to an internal index or artifact store:
+
+   ```bash
+   pip install build
+   python -m build
+   ```
+
+   The resulting wheel will appear in `dist/` and can be pushed to your chosen package repository.
+
+---
+
+## 🌐 Deploying to Google ADK / Agent Builder
+
+To expose the pricing agent to Google ADK (Agent Builder), wrap it in a lightweight HTTP endpoint and deploy to Cloud Run.
+
+1. Add a FastAPI webhook (example in `docs/google_adk.md`).
+2. Build and push a container to Artifact Registry using Cloud Build.
+3. Deploy the image to Cloud Run and copy the HTTPS URL.
+4. In Agent Builder, configure a tool that calls the Cloud Run `/price` endpoint with the request schema shown in the doc.
+
+See [`docs/google_adk.md`](docs/google_adk.md) for full, copy-pastable commands, a minimal Dockerfile, and security tips.

@@ -1,18 +1,16 @@
-from __future__ import annotations
-
 from collections import defaultdict
-from typing import Iterable, Tuple
+from typing import Dict, Iterable, Tuple
 
 from .models import CompetitorProduct
 
 
-BRAND_POSITION_WEIGHTS: dict[str, float] = {
+BRAND_POSITION_WEIGHTS: Dict[str, float] = {
     "value": 0.85,
     "mid": 1.0,
     "premium": 1.1,
 }
 
-DIFFERENTIATOR_WEIGHTS: dict[str, float] = {
+DIFFERENTIATOR_WEIGHTS: Dict[str, float] = {
     "clean-label": 0.05,
     "clean label": 0.05,
     "liposomal": 0.07,
@@ -47,10 +45,10 @@ def competitor_anchor(competitors: Iterable[CompetitorProduct]) -> float:
     return weighted_sum / weight_total
 
 
-def differentiation_score(differentiators: Iterable[str]) -> Tuple[float, dict[str, float]]:
+def differentiation_score(differentiators: Iterable[str]) -> Tuple[float, Dict[str, float]]:
     """Score differentiators and return (score, contribution breakdown)."""
 
-    contributions: dict[str, float] = defaultdict(float)
+    contributions: Dict[str, float] = defaultdict(float)
     for differentiator in differentiators:
         key = differentiator.lower()
         if key in DIFFERENTIATOR_WEIGHTS:
