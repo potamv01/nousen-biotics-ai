@@ -1,4 +1,6 @@
-from typing import Dict, Iterable, List, Optional
+from __future__ import annotations
+
+from typing import Iterable, List
 
 from .analysis import competitor_anchor, differentiation_score
 from .models import (
@@ -9,7 +11,7 @@ from .models import (
 )
 
 
-CHANNEL_DISCOUNTS: Dict[str, float] = {
+CHANNEL_DISCOUNTS: dict[str, float] = {
     "direct": 0.0,
     "practitioner": 0.05,
     "retail": 0.08,
@@ -19,7 +21,7 @@ CHANNEL_DISCOUNTS: Dict[str, float] = {
 class PricingAgent:
     """Calculates recommended pricing while keeping Nousen principles in view."""
 
-    def __init__(self, config: Optional[PricingAgentConfig] = None) -> None:
+    def __init__(self, config: PricingAgentConfig | None = None) -> None:
         self.config = config or PricingAgentConfig()
 
     def _channel_adjustment(self, channel: str) -> float:
@@ -96,7 +98,7 @@ class PricingAgent:
         recommended_rrp: float,
         wholesale_price: float,
         expected_margin: float,
-        contributions: Dict[str, float],
+        contributions: dict[str, float],
     ) -> List[str]:
         narrative: List[str] = []
 

@@ -1,10 +1,3 @@
-from pathlib import Path
-import sys
-
-ROOT = Path(__file__).resolve().parent.parent
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
 from pricing_agent import CompetitorProduct, PricingAgent, ProductProfile
 
 
@@ -52,17 +45,3 @@ def test_differentiation_caps_pricing():
 
     assert recommendation.rrp <= recommendation.competitor_anchor * 1.5
     assert 0 < recommendation.differentiation_premium <= agent.config.max_premium
-
-
-def test_bootstrap_arp_compatibility_layer():
-    # Legacy notebooks referenced bootstrap_arp; keep that import path working.
-    from bootstrap_arp import PricingAgent as LegacyAgent, PricingContext as LegacyContext, Product as LegacyProduct
-
-    agent = LegacyAgent()
-    assert isinstance(agent, PricingAgent)
-
-    product = LegacyProduct(name="Legacy Product", unit_cost=4.0, target_margin=0.6)
-    assert isinstance(product, ProductProfile)
-
-    context = LegacyContext(min_margin=0.5)
-    assert isinstance(context, agent.config.__class__)

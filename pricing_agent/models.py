@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import Dict, List, Sequence
+from typing import List, Sequence
 
 
-@dataclass
+@dataclass(slots=True)
 class PricingAgentConfig:
     """Configuration options that shape how recommendations are produced."""
 
@@ -19,7 +21,7 @@ class PricingAgentConfig:
             raise ValueError("max_premium must be between 0 and 1")
 
 
-@dataclass
+@dataclass(slots=True)
 class ProductProfile:
     """Represents the Nousen product we are pricing."""
 
@@ -39,7 +41,7 @@ class ProductProfile:
         self.channel = self.channel.lower()
 
 
-@dataclass
+@dataclass(slots=True)
 class CompetitorProduct:
     """Competitor snapshot used to anchor our pricing band."""
 
@@ -56,7 +58,7 @@ class CompetitorProduct:
         self.strength_score = max(0.0, min(1.0, self.strength_score))
 
 
-@dataclass
+@dataclass(slots=True)
 class PricingRecommendation:
     """Structured output summarising the pricing decision."""
 
@@ -66,4 +68,4 @@ class PricingRecommendation:
     competitor_anchor: float
     differentiation_premium: float
     narrative: Sequence[str]
-    rationale: Dict[str, float]
+    rationale: dict[str, float]
