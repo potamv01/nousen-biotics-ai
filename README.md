@@ -44,6 +44,7 @@ Planned integrations include:
 
 - `pricing_agent/` — production-ready agent that blends competitor anchors, differentiation scores, and margin protection to output RRPs and wholesale guidance.
 - `tests/` — unit tests covering the pricing agent behaviour and guardrails.
+- `docs/architecture.md` — system architecture overview, execution flow, integration touchpoints, and extensibility notes.
 
 ---
 
@@ -149,3 +150,6 @@ See [`docs/google_adk.md`](docs/google_adk.md) for full, copy-pastable commands,
 
 ### GitHub MCP bridge to the ADK webhook
 If you want GitHub MCP clients (e.g., Copilot Workspace) to call the same Cloud Run webhook that Google ADK uses, see [`docs/github_mcp_adk.md`](docs/github_mcp_adk.md) for a reference `servers.json` entry and tool schema that forward MCP requests to `/price`.
+
+## 🧑‍💻 Development UI next steps
+If you are building a browser-based console to run pricing scenarios, review the roadmap in [`docs/development_ui.md`](docs/development_ui.md). It outlines a suggested React/Vite stack, payload validation, ADK/MCP handoff points, and a validation checklist to keep UI outputs aligned with the pricing agent’s guardrails.
