@@ -1,15 +1,12 @@
-from typing import Dict, Iterable, List, Optional
+from __future__ import annotations
+
+from typing import Iterable, List, Optional
 
 from .analysis import competitor_anchor, differentiation_score
-from .models import (
-    CompetitorProduct,
-    PricingAgentConfig,
-    PricingRecommendation,
-    ProductProfile,
-)
+from .models import CompetitorProduct, PricingAgentConfig, PricingRecommendation, ProductProfile
 
 
-CHANNEL_DISCOUNTS: Dict[str, float] = {
+CHANNEL_DISCOUNTS: dict[str, float] = {
     "direct": 0.0,
     "practitioner": 0.05,
     "retail": 0.08,
@@ -19,7 +16,7 @@ CHANNEL_DISCOUNTS: Dict[str, float] = {
 class PricingAgent:
     """Calculates recommended pricing while keeping Nousen principles in view."""
 
-    def __init__(self, config: Optional[PricingAgentConfig] = None) -> None:
+    def __init__(self, config: PricingAgentConfig | None = None) -> None:
         self.config = config or PricingAgentConfig()
 
     def _channel_adjustment(self, channel: str) -> float:
@@ -89,41 +86,4 @@ class PricingAgent:
     def _build_narrative(
         self,
         product: ProductProfile,
-        anchor_price: float,
-        floor_price: float,
-        target_rrp: float,
-        differentiation: float,
-        recommended_rrp: float,
-        wholesale_price: float,
-        expected_margin: float,
-        contributions: Dict[str, float],
-    ) -> List[str]:
-        narrative: List[str] = []
-
-        narrative.append(
-            f"Competitor anchor of £{anchor_price:0.2f} was derived from market benchmarks with strength weighting."
-        )
-        narrative.append(
-            f"Floor price set at £{floor_price:0.2f} to protect a minimum {self.config.min_margin:.0%} margin."
-        )
-        narrative.append(
-            f"Target RRP based on desired margin is £{target_rrp:0.2f}; recommended RRP is £{recommended_rrp:0.2f}."
-        )
-
-        if differentiation:
-            differentiator_details = ", ".join(
-                f"{name} (+{weight:.0%})" for name, weight in contributions.items()
-            )
-            narrative.append(
-                "Differentiation premium applied for: "
-                f"{differentiator_details} (capped at {self.config.max_premium:.0%})."
-            )
-
-        narrative.append(
-            f"Wholesale guidance set to £{wholesale_price:0.2f} after {self.config.wholesale_discount:.0%} discount."
-        )
-        narrative.append(
-            f"Expected blended margin at recommended RRP is {expected_margin:.0%}."
-        )
-
-        return narrative
+        anchor_price: float,_

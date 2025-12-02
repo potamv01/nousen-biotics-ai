@@ -90,6 +90,7 @@ Key behaviours:
 ## 🔬 Running Tests
 
 Install dependencies (Python 3.7+; 3.10+ recommended) and run:
+Install dependencies (Python 3.10+ recommended) and run:
 
 ```bash
 python -m pytest
