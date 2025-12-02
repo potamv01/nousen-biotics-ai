@@ -152,8 +152,5 @@ See [`docs/google_adk.md`](docs/google_adk.md) for full, copy-pastable commands,
 ### GitHub MCP bridge to the ADK webhook
 If you want GitHub MCP clients (e.g., Copilot Workspace) to call the same Cloud Run webhook that Google ADK uses, see [`docs/github_mcp_adk.md`](docs/github_mcp_adk.md) for a reference `servers.json` entry and tool schema that forward MCP requests to `/price`.
 
-### Cross-checking with `google/adk-python`
-If you want to validate this repository against the `google/adk-python` reference, start with the checklist in [`docs/adk_python_alignment.md`](docs/adk_python_alignment.md). It captures the local ADK helpers included here and the follow-up tasks to run once you can fetch the upstream repo.
-
 ## 🧑‍💻 Development UI next steps
 If you are building a browser-based console to run pricing scenarios, review the roadmap in [`docs/development_ui.md`](docs/development_ui.md). It outlines a suggested React/Vite stack, payload validation, ADK/MCP handoff points, and a validation checklist to keep UI outputs aligned with the pricing agent’s guardrails.
