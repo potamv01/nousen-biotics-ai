@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import Iterable, Tuple
+from typing import Iterable, Tuple, Dict
 
 from .models import CompetitorProduct
 
@@ -27,12 +27,13 @@ DIFFERENTIATOR_WEIGHTS: dict[str, float] = {
 
 
 def _position_weight(position: str) -> float:
+    """Get the weight for a given brand position."""
     return BRAND_POSITION_WEIGHTS.get(position.lower(), BRAND_POSITION_WEIGHTS["mid"])
 
 
 def competitor_anchor(competitors: Iterable[CompetitorProduct]) -> float:
     """Calculate a weighted anchor price from competitor products."""
-
+    
     weighted_sum = 0.0
     weight_total = 0.0
 
@@ -49,8 +50,9 @@ def competitor_anchor(competitors: Iterable[CompetitorProduct]) -> float:
 
 def differentiation_score(differentiators: Iterable[str]) -> Tuple[float, dict[str, float]]:
     """Score differentiators and return (score, contribution breakdown)."""
-
+    
     contributions: dict[str, float] = defaultdict(float)
+    
     for differentiator in differentiators:
         key = differentiator.lower()
         if key in DIFFERENTIATOR_WEIGHTS:
