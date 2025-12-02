@@ -44,6 +44,7 @@ Planned integrations include:
 
 - `pricing_agent/` — production-ready agent that blends competitor anchors, differentiation scores, and margin protection to output RRPs and wholesale guidance.
 - `tests/` — unit tests covering the pricing agent behaviour and guardrails.
+- `docs/architecture.md` — system architecture overview, execution flow, integration touchpoints, and extensibility notes.
 
 ---
 
@@ -140,10 +141,11 @@ You can install and run the pricing agent as a reusable Python package:
 
 To expose the pricing agent to Google ADK (Agent Builder), wrap it in a lightweight HTTP endpoint and deploy to Cloud Run.
 
-1. Add a FastAPI webhook (example in `docs/google_adk.md`).
-2. Build and push a container to Artifact Registry using Cloud Build.
-3. Deploy the image to Cloud Run and copy the HTTPS URL.
-4. In Agent Builder, configure a tool that calls the Cloud Run `/price` endpoint with the request schema shown in the doc.
+1. Add a FastAPI webhook (a ready-made app is available in `serve_google_adk.py`; see `docs/google_adk.md` for details).
+2. Install the ADK extras for local runs: `pip install .[adk]`.
+3. Build and push a container to Artifact Registry using Cloud Build.
+4. Deploy the image to Cloud Run and copy the HTTPS URL.
+5. In Agent Builder, configure a tool that calls the Cloud Run `/price` endpoint with the request schema shown in the doc.
 
 See [`docs/google_adk.md`](docs/google_adk.md) for full, copy-pastable commands, a minimal Dockerfile, and security tips.
 
