@@ -141,15 +141,19 @@ You can install and run the pricing agent as a reusable Python package:
 
 To expose the pricing agent to Google ADK (Agent Builder), wrap it in a lightweight HTTP endpoint and deploy to Cloud Run.
 
-1. Add a FastAPI webhook (example in `docs/google_adk.md`).
-2. Build and push a container to Artifact Registry using Cloud Build.
-3. Deploy the image to Cloud Run and copy the HTTPS URL.
-4. In Agent Builder, configure a tool that calls the Cloud Run `/price` endpoint with the request schema shown in the doc.
+1. Add a FastAPI webhook (a ready-made app is available in `serve_google_adk.py`; see `docs/google_adk.md` for details).
+2. Install the ADK extras for local runs: `pip install .[adk]`.
+3. Build and push a container to Artifact Registry using Cloud Build.
+4. Deploy the image to Cloud Run and copy the HTTPS URL.
+5. In Agent Builder, configure a tool that calls the Cloud Run `/price` endpoint with the request schema shown in the doc.
 
 See [`docs/google_adk.md`](docs/google_adk.md) for full, copy-pastable commands, a minimal Dockerfile, and security tips.
 
 ### GitHub MCP bridge to the ADK webhook
 If you want GitHub MCP clients (e.g., Copilot Workspace) to call the same Cloud Run webhook that Google ADK uses, see [`docs/github_mcp_adk.md`](docs/github_mcp_adk.md) for a reference `servers.json` entry and tool schema that forward MCP requests to `/price`.
+
+### Cross-checking with `google/adk-python`
+If you want to validate this repository against the `google/adk-python` reference, start with the checklist in [`docs/adk_python_alignment.md`](docs/adk_python_alignment.md). It captures the local ADK helpers included here and the follow-up tasks to run once you can fetch the upstream repo.
 
 ## 🧑‍💻 Development UI next steps
 If you are building a browser-based console to run pricing scenarios, review the roadmap in [`docs/development_ui.md`](docs/development_ui.md). It outlines a suggested React/Vite stack, payload validation, ADK/MCP handoff points, and a validation checklist to keep UI outputs aligned with the pricing agent’s guardrails.

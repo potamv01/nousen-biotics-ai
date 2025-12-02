@@ -16,7 +16,10 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+adk = ["fastapi>=0.109", "uvicorn[standard]>=0.23", "pydantic>=1.10"]
+
 [tool.setuptools]
 packages = ["pricing_agent"]
-py-modules = ["bootstrap_arp"]
+py-modules = ["bootstrap_arp", "serve_google_adk"]
 include-package-data = true

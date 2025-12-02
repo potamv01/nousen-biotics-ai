@@ -9,56 +9,10 @@ This guide shows how to wrap the pricing agent in a minimal HTTP surface that Go
 - (Optional) A dedicated service account for the Cloud Run service with the minimum needed roles
 
 ## 2) Add an HTTP entrypoint for ADK
-Create a lightweight FastAPI app that exposes a `/price` endpoint. Google ADK tool calls can hit this endpoint as an HTTPS webhook.
+This repository ships with a lightweight FastAPI app (`serve_google_adk.py`) that exposes a `/price` endpoint. Google ADK tool calls can hit this endpoint as an HTTPS webhook.
 
-```bash
-pip install fastapi uvicorn
-```
-
-Create `serve_google_adk.py` at repo root:
-
-```python
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
-from pricing_agent import CompetitorProduct, PricingAgent, ProductProfile
-
-app = FastAPI(title="Nousen Pricing Agent")
-agent = PricingAgent()
-
-class CompetitorPayload(BaseModel):
-    name: str
-    price: float
-    brand_position: str = Field(description="value|mid|premium")
-    strength_score: float = Field(ge=0.0, le=1.0)
-
-class ProductPayload(BaseModel):
-    name: str
-    unit_cost: float
-    target_margin: float = Field(ge=0.0, le=1.0)
-    differentiators: list[str]
-    brand_position: str
-    channel: str
-
-class PriceRequest(BaseModel):
-    product: ProductPayload
-    competitors: list[CompetitorPayload]
-
-@app.post("/price")
-async def price(req: PriceRequest):
-    try:
-        product = ProductProfile(**req.product.dict())
-        competitors = [CompetitorProduct(**c.dict()) for c in req.competitors]
-        recommendation = agent.recommend(product, competitors)
-        return recommendation.__dict__
-    except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=400, detail=str(exc))
-```
-
-Run locally for a quick check:
-
-```bash
-uvicorn serve_google_adk:app --reload --port 8080
-```
+- Install the optional extras: `pip install .[adk]`
+- Run locally for a quick check: `uvicorn serve_google_adk:app --reload --port 8080`
 
 ## 3) Build and push the container
 
@@ -106,7 +60,7 @@ Take note of the HTTPS URL that Cloud Run prints (e.g., `https://nousen-pricing-
 FROM python:3.11-slim
 WORKDIR /app
 COPY . /app
-RUN pip install --no-cache-dir . fastapi uvicorn
+RUN pip install --no-cache-dir .[adk]
 CMD ["uvicorn", "serve_google_adk:app", "--host", "0.0.0.0", "--port", "8080"]
 ```
 
